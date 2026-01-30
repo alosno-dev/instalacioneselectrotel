@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body,
 #root {
@@ -508,15 +512,15 @@ h2 {
 }
 
 .whatsapp-user div strong {
-  display: block; 
+  display: block;
   font-size: 1rem;
   font-weight: bold;
 }
 
 .whatsapp-user div p {
-  margin: 0; 
+  margin: 0;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8); 
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .close-btn {
@@ -529,32 +533,32 @@ h2 {
 }
 
 .whatsapp-body {
-  background-color: #e5ddd5; 
+  background-color: #e5ddd5;
   padding: 15px;
 }
 
 .message {
   background-color: white;
-  border-radius: 8px; 
-  padding: 10px 12px; 
-  max-width: 80%; 
-  margin-bottom: 10px; 
-  position: relative; 
+  border-radius: 8px;
+  padding: 10px 12px;
+  max-width: 80%;
+  margin-bottom: 10px;
+  position: relative;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .message p {
-  margin: 0; 
+  margin: 0;
   line-height: 1.4;
 }
 
 .message span.time {
-  display: block; 
+  display: block;
   font-size: 0.7rem;
-  color: #888; 
-  text-align: right; 
-  margin-top: 5px; 
+  color: #888;
+  text-align: right;
+  margin-top: 5px;
   position: absolute;
   bottom: 5px;
   right: 10px;
@@ -614,30 +618,29 @@ h2 {
   box-sizing: border-box;
 }
 
-
 .footer {
-	border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
 }
 
 .footer-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer-social {
-	display: flex;
-	gap: 15px;
-	font-size: 1.4rem;
-	margin-top: 8px;
+  display: flex;
+  gap: 15px;
+  font-size: 1.4rem;
+  margin-top: 8px;
 }
 
 .footer-social a {
-	color: #033476;
-	transition: color 0.3s;
+  color: #033476;
+  transition: color 0.3s;
 }
 
 .footer-social a:hover {
-	color: #02224b;
+  color: #02224b;
 }
