@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaWhatsapp, FaTimes } from "react-icons/fa";
 
-export const WhatsAppWidget  = () => {
- const [visible, setVisible] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+export const WhatsAppWidget = () => {
+  const [visible, setVisible] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 5000);

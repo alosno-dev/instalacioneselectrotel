@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Helmet } from "react-helmet-async";
-import banner from "../assets/img/banner.png";
-import { FaPhoneAlt, FaFileAlt } from "react-icons/fa";
 import { Servicios } from "../pages/Servicios.jsx";
 import { ContactoHome } from "../components/ContactoHome.jsx"
 import { WhatsAppWidget } from "../components/WhatsAppWidget.jsx";
-
+import AboutMe from "../components/AboutMe.jsx";
+import Hero from "../components/Hero.jsx";
+import Carousel from "../components/Carousel.jsx";
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
@@ -47,26 +47,44 @@ export const Home = () => {
 				<meta name="twitter:description" content="Presupuestos eléctricos online en el Puerto de Santa María, Cádiz." />
 				<meta name="twitter:image" content="https://res.cloudinary.com/dewanllxn/image/upload/v1745981667/electricista_en_el_Puerto_de_Santa_Maria_vf9lb6.jpg" />
 			</Helmet>
+			<Hero />
+			<div className="w-full">
+				<Carousel
+					slides={[
+						{
+							src: "https://res.cloudinary.com/dewanllxn/image/upload/v1745981667/electricista_en_el_Puerto_de_Santa_Maria_vf9lb6.jpg",
+							alt: "Electricista en el Puerto de Santa María",
+							caption: "Electricista profesional en el Puerto de Santa María, Cádiz",
+						},
+						{
+							src: "https://res.cloudinary.com/dewanllxn/image/upload/v1745981667/instalaciones_electricas_en_el_Puerto_de_Santa_Maria_uxv6tm.jpg",
+							alt: "Instalaciones eléctricas en el Puerto de Santa María",
+							caption: "Instalaciones eléctricas seguras y certificadas",
+						},
+						{
+							src: "https://res.cloudinary.com/dewanllxn/image/upload/v1745981667/boletin_electrico_en_el_Puerto_de_Santa_Maria_jhxz9r.jpg",
+							alt: "Boletín eléctrico en el Puerto de Santa María",
+							caption: "Boletines eléctricos oficiales y homologados",
+						},
+					]}
 
-			<div className="banner-container">
-				<img src="https://res.cloudinary.com/dewanllxn/image/upload/v1745980159/banner_itvoxt.png" alt="Electrotel instalaciones eléctricas en el Puerto de Santa María, Cádiz" className="banner-img" />
-				<div className="banner-buttons">
-					<a href="tel:+34614483128" className="banner-btn call-btn">
-						<FaPhoneAlt className="me-1" />
-						Llamar
-					</a>
-					<button className="banner-btn email-btn" onClick={() => navigate("/presupuesto")}>
-						<FaFileAlt className="me-1" />
-						Presupuesto Online
-					</button>
-				</div>
+				/>
+			</div>
+			<div className="relative">
+				<AboutMe className="" />
 			</div>
 
-			<Servicios />
+			<div className="relative">
+				<Servicios />
+			</div>
 
-			<ContactoHome />
+			<div className="relative">
+				<ContactoHome />
+			</div>
 
-			<WhatsAppWidget />
+			<div className="relative">
+				<WhatsAppWidget />
+			</div>
 
 		</>
 	);

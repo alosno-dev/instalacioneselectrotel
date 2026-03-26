@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap");
+
+@import "tailwindcss";
 
 html,
 body,
@@ -141,16 +141,20 @@ body,
   gap: 80px;
   padding: 0 20px;
   margin-bottom: 100px;
+  margin-top: 100px;
 }
 .servicios-section h1,
-h2 {
+.servicios-section h2 {
   margin-top: 10px;
+  margin-right: 20px;
+  margin-left: 20px;
   text-align: center;
   font-size: 2.4rem;
   color: #033476;
   margin-bottom: 40px;
   font-weight: 600;
   position: relative;
+  line-height: 1.2;
 }
 
 .servicios-section h1::after {
@@ -164,13 +168,13 @@ h2 {
 }
 
 .servicio-block {
+  background-color: #f9f9f9;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 40px;
-  max-width: 1200px;
+  width: auto;
   margin: 0 auto;
-  flex-wrap: wrap;
 }
 
 .servicio-block.reverse {
@@ -178,25 +182,26 @@ h2 {
 }
 
 .servicio-img {
-  width: 250px;
-  height: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  height: 580px;
 }
 
 .servicio-texto {
   max-width: 600px;
+  margin-left: 20px;
 }
 
 .servicio-block.normal .servicio-texto {
-  text-align: left;
+  text-align: left !important;
 }
 
 .servicio-block.reverse .servicio-texto {
-  text-align: right;
+  text-align: left !important;
 }
 
 .servicio-texto h2 {
-  font-size: 1.8rem;
+  text-align: left !important;
+  font-size: 2rem;
   color: #033476;
   margin-bottom: 10px;
 }
@@ -205,6 +210,9 @@ h2 {
   font-size: 1rem;
   color: #333;
   line-height: 1.5;
+  margin-left: 20px;
+  margin-right: 20px;
+  max-width: 520px;
 }
 
 /* Responsive: en móviles todo centrado */
@@ -229,7 +237,7 @@ h2 {
 }
 
 .presupuesto-container h1,
-h2 {
+.presupuesto-container h2 {
   text-align: center;
   color: #033476;
   margin-bottom: 30px;
