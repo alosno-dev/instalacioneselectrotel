@@ -1,0 +1,1 @@
+export { slideUpLeft } from "./slideUpLeft";
