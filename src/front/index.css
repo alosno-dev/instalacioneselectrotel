@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
 @import "tailwindcss";
 
 html,
@@ -37,6 +37,11 @@ body,
   width: 250px;
   height: auto;
   margin-left: 30px;
+}
+
+/* Clase para usar la fuente Google "Ultra" en títulos */
+.font-ultra {
+  font-family: 'Ultra', serif;
 }
 .contact-link {
   color: #033476;

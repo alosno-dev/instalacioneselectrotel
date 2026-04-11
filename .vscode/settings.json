@@ -6,5 +6,6 @@
     },
     "[javascriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "python-envs.defaultEnvManager": "ms-python.python:pipenv"
 }

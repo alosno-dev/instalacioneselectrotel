@@ -36,9 +36,48 @@ export default function Carousel() {
         return () => window.removeEventListener("resize", updateBasis);
     }, []);
 
+    const [slides, setSlides] = useState([]);
+
+    // fetch slides from API and map image by keyword
+    useEffect(() => {
+        const ac = new AbortController();
+        const load = async () => {
+            try {
+                const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || 'http://127.0.0.1:3000';
+                const res = await fetch(`${API_BASE}/api/csv`, { signal: ac.signal });
+                if (!res.ok) {
+                    const txt = await res.text().catch(() => String(res.status));
+                    throw new Error('Failed to fetch slides: ' + txt);
+                }
+                const data = await res.json();
+                const mapped = data.map((item) => {
+                    const title = item.Titulo || item.titulo || item.TITLE || '';
+                    const urlField = item.URL || item.Url || item.url || '';
+                    // choose image by keyword
+                    const low = title.toLowerCase();
+                    let img = cuadro;
+                    if (low.includes('recarga') || low.includes('recarg')) img = puntoRecarga;
+                    else if (low.includes('suministr') || low.includes('suministro')) img = suministros;
+                    return { url: urlField || img, text: title };
+                });
+                setSlides(mapped);
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.error('Failed to load slides', err);
+                }
+            }
+        };
+        load();
+        return () => ac.abort();
+    }, []);
+
+    // init/reinit Embla when slides change
     useEffect(() => {
         if (!emblaRef.current) return;
-
+        if (emblaApi) {
+            try { emblaApi.destroy(); } catch (e) { }
+            setEmblaApi(null);
+        }
         const embla = EmblaCarousel(emblaRef.current, { loop: true, align: 'start', containScroll: 'trimSnaps' });
         setEmblaApi(embla);
 
@@ -47,42 +86,13 @@ export default function Carousel() {
             setCanScrollNext(embla.canScrollNext());
         };
 
-        embla.on("select", onSelect);
-        embla.on("dragStart", () => setIsDragging(true));
-        embla.on("dragEnd", () => setIsDragging(false));
+        embla.on('select', onSelect);
+        embla.on('dragStart', () => setIsDragging(true));
+        embla.on('dragEnd', () => setIsDragging(false));
         onSelect();
 
-        return () => {
-            embla.destroy();
-        };
-    }, []);
-
-    const slides = [
-        {
-            url: cuadro,
-            text: "Instalaciones eléctricas",
-        },
-        {
-            url: puntoRecarga,
-            text: "Instalacion de puntos de recarga de vehiculo electrico",
-        },
-        {
-            url: suministros,
-            text: "Nuevos suministros electricos y acometidas",
-        },
-        {
-            url: cuadro,
-            text: "Planificacion de obras,memorias tecnicas de diseño y nuevos certificados electricos",
-        },
-        {
-            url: puntoRecarga,
-            text: "Porteros automaticos y videoporteros",
-        },
-        {
-            url: suministros,
-            text: "Reformas y nuevas instalaciones en viviendas empresas y locales comerciales",
-        },
-    ];
+        return () => embla.destroy();
+    }, [slides]);
 
     return (
         <div className="w-full py-8">

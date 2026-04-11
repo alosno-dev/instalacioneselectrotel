@@ -20,7 +20,7 @@ export default function Hero() {
                     <FaMapMarkerAlt className="text-blue-600 mr-2" size={24} aria-hidden="true" />
                     <h3 className="text-[16px] md:text-xl">El Puerto de Santa maria</h3>
                 </div>
-                <h1 className="text-[36px] md:text-[64px] text-gray-950 leading-none font-bold max-w-250 font-grotesk">SOLUCIONES ELECTRICAS PROFESIONALES</h1>
+                <h1 className="text-[36px] md:text-[44px] text-gray-950 leading-none max-w-250 font-ultra">SOLUCIONES ELECTRICAS PROFESIONALES</h1>
                 <h2 className="text-[16px] md:text-[24px] max-w-250">Desarrollamos e implementamos proyectos eléctricos confiables para hogares, comercios e industria, garantizando resultados duraderos y seguros.</h2>
                 <div className="relative mx-4 h-150 flex justify-center items-center overflow-hidden" style={{ width: '80vw' }}>
                     {// Imagen abajo de los botones

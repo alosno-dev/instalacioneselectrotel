@@ -20,12 +20,14 @@ typing-extensions = "*"
 flask-jwt-extended = "==4.6.0"
 wtforms = "==3.1.2"
 sqlalchemy = "*"
+colorama = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.12.3"
 
 [scripts]
-start = "sh -c 'FLASK_APP=src.app PYTHONPATH=src flask run'"
+start = "sh -c 'cd src && gunicorn \"app:app\" --bind 0.0.0.0:${PORT:-3000} --workers 3 --log-file -'"
 init="flask db init"
 migrate="flask db migrate"
 local="heroku local"
