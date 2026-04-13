@@ -7,13 +7,17 @@ import { Footer } from "../components/Footer"
 export const Layout = () => {
 	return (
 		<div className="layout-wrapper">
-			<ScrollToTop>
-				<MainNavbar />
-				<main className="layout-content">
-					<Outlet />
-				</main>
-				<Footer />
-			</ScrollToTop>
+			<div id="smooth-wrapper">
+				<div id="smooth-content">
+					<ScrollToTop>
+						<MainNavbar />
+						<main className="layout-content">
+							<Outlet />
+						</main>
+						<Footer />
+					</ScrollToTop>
+				</div>
+			</div>
 		</div>
 	);
 };
