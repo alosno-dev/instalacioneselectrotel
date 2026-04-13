@@ -48,14 +48,25 @@ export default function Hero() {
                 </div>
 
 
-                <div className="relative h-120 w-full lg:w-screen flex justify-center items-center" style={{ clipPath: 'inset(-1000px 0 0 0)' }}>
+                <div className="relative h-120 w-full lg:w-screen flex justify-center items-center aspect-square" style={{ clipPath: 'inset(-1000px 0 0 0)' }}>
                     {// Imagen abajo de los botones
                     }
-                    <img ref={fondoRef} className="absolute w-full h-full object-cover" src={fondoHero} alt="Fondo de hero" />
+                    <img
+                        ref={fondoRef}
+                        className="absolute w-full h-full object-cover"
+                        src={fondoHero}
+                        alt="Fondo de hero"
+                        loading="lazy"
+                    />
 
                     {// Imagen de cabina
                     }
-                    <img className="absolute right-50 h-300" src={paloElectrico} alt="Palo eléctrico" />
+                    <img
+                        className="absolute right-50 h-300"
+                        src={paloElectrico}
+                        alt="Palo eléctrico"
+                        loading="lazy"
+                    />
 
                 </div>
 

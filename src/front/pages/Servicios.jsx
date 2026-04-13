@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { useRef, useState, useCallback } from "react";
+import { useServiceAnimationAdvanced } from "../hooks/useServiceAnimationAdvanced";
 import imagen1 from "../assets/img/1.png";
 import imagen2 from "../assets/img/2.png";
 import imagen3 from "../assets/img/3.png";
@@ -36,40 +34,52 @@ const servicios = [
   },
 ];
 
-const ServicioBlock = ({ servicio, index }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start({ opacity: 1, x: 0 });
-    }
-  }, [inView]);
-
-  const isEven = index % 2 === 0;
+const ServicioBlock = ({ servicio, index, isEven, currentIndex }) => {
+  const isCurrentBlock = index === currentIndex;
 
   return (
-    <motion.div
-      ref={ref}
+    <div
       className={`servicio-block ${isEven ? 'normal' : 'reverse'}`}
-      initial={{ opacity: 0, x: isEven ? -100 : 100 }}
-      animate={controls}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        opacity: isCurrentBlock ? 1 : 0,
+        pointerEvents: isCurrentBlock ? 'auto' : 'none',
+        transition: 'opacity 0.6s ease',
+      }}
     >
       <img src={servicio.imagen} alt={servicio.titulo} className="servicio-img" />
       <div className="servicio-texto">
         <h2>{servicio.titulo}</h2>
         <p>{servicio.descripcion}</p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 export const Servicios = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const sectionRef = useRef(null);
+
+  const handleNavigate = useCallback((direction) => {
+    if (direction === 'next') {
+      setCurrentIndex((prev) => Math.min(prev + 1, servicios.length - 1));
+    } else if (direction === 'prev') {
+      setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    }
+  }, []);  // ⭐ No necesita dependencias, handleNavigate nunca cambia
+
+  // Hook que controla scroll + rueda para navegar slides
+  useServiceAnimationAdvanced(sectionRef, currentIndex, servicios.length, handleNavigate);
+
   return (
-    <section className="servicios-section">
+    <section ref={sectionRef} className="servicios-section">
       {servicios.map((servicio, i) => (
-        <ServicioBlock key={i} servicio={servicio} index={i} />
+        <ServicioBlock
+          key={i}
+          servicio={servicio}
+          index={i}
+          isEven={i % 2 === 0}
+          currentIndex={currentIndex}
+        />
       ))}
     </section>
   );

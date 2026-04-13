@@ -48,7 +48,7 @@ export const Home = () => {
 				<meta name="twitter:image" content="https://res.cloudinary.com/dewanllxn/image/upload/v1745981667/electricista_en_el_Puerto_de_Santa_Maria_vf9lb6.jpg" />
 			</Helmet>
 			<Hero />
-			<div className="w-full">
+			<div className="w-full min-h-[500px] flex items-center">
 				<Carousel
 					slides={[
 						{
@@ -70,15 +70,15 @@ export const Home = () => {
 
 				/>
 			</div>
-			<div className="relative">
+			<div className="relative min-h-[300px]">
 				<AboutMe className="" />
 			</div>
 
-			<div className="relative">
+			<div className="relative min-h-screen">
 				<Servicios />
 			</div>
 
-			<div className="relative">
+			<div className="relative min-h-[600px]">
 				<ContactoHome />
 			</div>
 
