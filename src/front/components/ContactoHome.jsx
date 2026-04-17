@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+import contactoFoto from "../assets/img/contacto-foto.jpg"
 
 export const ContactoHome = () => {
   const [form, setForm] = useState({ nombre: "", telefono: "", email: "", mensaje: "" });
@@ -34,17 +35,21 @@ export const ContactoHome = () => {
   return (
     <section className="contacto-home" id="contacto">
       <h2>Contáctanos</h2>
-      <form onSubmit={handleSubmit} className="contacto-form">
-        <input name="nombre" type="text" placeholder="Tu nombre" value={form.nombre} onChange={handleChange} required />
-        <input name="telefono" type="tel" placeholder="Tu teléfono" value={form.telefono} onChange={handleChange} />
-        <input name="email" type="email" placeholder="Tu correo electrónico" value={form.email} onChange={handleChange} required />
-        <textarea name="mensaje" placeholder="Tu mensaje" value={form.mensaje} onChange={handleChange} required />
-        {error && <p className="form-error">{error}</p>}
-        {enviado && <p className="form-success">¡Mensaje enviado correctamente!</p>}
-        <button type="submit" className="btn-enviar">
-          <FaPaperPlane className="me-2" /> Enviar
-        </button>
-      </form>
+      <div className="relative w-full h-screen lg:flex lg:flex-row">
+        <img src={contactoFoto} alt="Imagen electricista trabajando" className="fotoContacto absolute inset-0 w-full h-full object-cover lg:static lg:min-w-150" />
+        <form onSubmit={handleSubmit} className="contacto-form absolute inset-0 lg:static lg:flex lg:flex-col flex-1 lg:relative">
+          <input name="nombre" type="text" placeholder="Tu nombre" value={form.nombre} onChange={handleChange} required />
+          <input name="telefono" type="tel" placeholder="Tu teléfono" value={form.telefono} onChange={handleChange} />
+          <input name="email" type="email" placeholder="Tu correo electrónico" value={form.email} onChange={handleChange} required />
+          <textarea name="mensaje" placeholder="Tu mensaje" value={form.mensaje} onChange={handleChange} required />
+          {error && <p className="form-error">{error}</p>}
+          {enviado && <p className="form-success">¡Mensaje enviado correctamente!</p>}
+          <button type="submit" className="btn-enviar flex flex-row justify-between items-center h-10">
+            <FaPaperPlane className="me-2" /> Enviar
+          </button>
+        </form>
+      </div>
+
     </section>
   );
 };

@@ -334,7 +334,6 @@ body,
 }
 
 .contacto-form {
-  max-width: 600px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -375,6 +374,10 @@ body,
 
 .form-success {
   color: green;
+}
+
+.fotoContacto {
+  clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 0% 100%);
 }
 
 @media (max-width: 576px) {

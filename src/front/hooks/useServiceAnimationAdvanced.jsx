@@ -10,9 +10,9 @@ gsap.registerPlugin(ScrollTrigger, Observer, ScrollToPlugin);
 export function useServiceAnimationAdvanced(sectionRef, currentIndex, totalSlides, onNavigate) {
     const triggerDownRef = useRef(null);
     const observerRef = useRef(null);
-    const progressRef = useRef(0);  // ⭐ Track scroll progress (0 to 1)
-    const lastSlideRef = useRef(0);  // ⭐ Track last triggered slide
-    const timelineRef = useRef(null);  // ⭐ Timeline para controlar el progreso
+    const progressRef = useRef(0);  // Track scroll progress (0 to 1)
+    const lastSlideRef = useRef(0);  // Track last triggered slide
+    const timelineRef = useRef(null);  // Timeline para controlar el progreso
 
     // Actualizar el ref cuando currentIndex cambia
     useEffect(() => {
