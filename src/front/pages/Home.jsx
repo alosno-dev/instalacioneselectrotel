@@ -4,7 +4,6 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Helmet } from "react-helmet-async";
 import { Servicios } from "../pages/Servicios.jsx";
 import { ContactoHome } from "../components/ContactoHome.jsx"
-import { WhatsAppWidget } from "../components/WhatsAppWidget.jsx";
 import AboutMe from "../components/AboutMe.jsx";
 import Hero from "../components/Hero.jsx";
 import Carousel from "../components/Carousel.jsx";
@@ -80,10 +79,6 @@ export const Home = () => {
 
 			<div className="relative min-h-[600px]">
 				<ContactoHome />
-			</div>
-
-			<div className="relative">
-				<WhatsAppWidget />
 			</div>
 
 		</>

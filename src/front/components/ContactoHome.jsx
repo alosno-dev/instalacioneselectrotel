@@ -34,10 +34,12 @@ export const ContactoHome = () => {
 
   return (
     <section className="contacto-home" id="contacto">
-      <h2>Contáctanos</h2>
+
       <div className="relative w-full h-screen lg:flex lg:flex-row">
-        <img src={contactoFoto} alt="Imagen electricista trabajando" className="fotoContacto absolute inset-0 w-full h-full object-cover lg:static lg:min-w-150" />
+        <img src={contactoFoto} alt="Imagen electricista trabajando" className="fotoContacto absolute inset-0 max-w-200 h-full object-cover lg:static lg:min-w-150" />
+
         <form onSubmit={handleSubmit} className="contacto-form absolute inset-0 lg:static lg:flex lg:flex-col flex-1 lg:relative">
+          <h2>Contáctanos</h2>
           <input name="nombre" type="text" placeholder="Tu nombre" value={form.nombre} onChange={handleChange} required />
           <input name="telefono" type="tel" placeholder="Tu teléfono" value={form.telefono} onChange={handleChange} />
           <input name="email" type="email" placeholder="Tu correo electrónico" value={form.email} onChange={handleChange} required />

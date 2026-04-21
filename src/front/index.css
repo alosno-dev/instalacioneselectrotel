@@ -27,6 +27,7 @@ body,
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
 }
 
 .layout-content {
@@ -395,76 +396,18 @@ body,
   }
 }
 /* Base styles for the container */
+/* WhatsApp Widget - Main Container */
 .whatsapp-widget {
   position: fixed;
-  bottom: 20px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  z-index: 1000; /* Ensure it's on top */
-  transition: all 0.3s ease-in-out; /* Smooth transition for states */
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  width: 60px;
+  height: 60px;
 }
 
 /* Collapsed state */
-.whatsapp-widget.collapsed .whatsapp-icon {
-  display: flex; /* To center the icon */
-  justify-content: center;
-  align-items: center;
-  width: 60px; /* Size of the icon button */
-  height: 60px;
-  background-color: white;
-  color: #25d366; /* WhatsApp green */
-  border-radius: 50%;
-  border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow */
-  cursor: pointer;
-  position: relative; /* Needed for the badge */
-  padding: 0; /* Remove default button padding */
-}
-
-/* Collapsed state: Hide the expanded box */
-.whatsapp-widget.collapsed .whatsapp-box {
-  display: none;
-}
-
-/* Badge for the collapsed icon */
-.whatsapp-widget.collapsed .whatsapp-icon::after {
-  content: "";
-  position: absolute;
-  top: 0; /* Adjust positioning */
-  right: 0; /* Adjust positioning */
-  width: 12px; /* Size of the badge */
-  height: 12px;
-  background-color: #ff4d4f; /* Red color for badge */
-  border-radius: 50%;
-  border: 2px solid white; /* Small white border around badge */
-}
-
-.whatsapp-widget.expanded .whatsapp-icon {
-  display: none;
-}
-
-.whatsapp-widget.expanded .whatsapp-box {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  max-width: 90vw;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: translateY(-70px) translateX(0);
-  bottom: calc(60px + 20px + 10px);
-  right: 0;
-}
-.whatsapp-widget {
-  position: fixed;
-  bottom: 20px; /* Distance from viewport bottom */
-  right: 20px; /* Distance from viewport right */
-  z-index: 1000;
-}
-
 .whatsapp-widget.collapsed {
   width: 60px;
   height: 60px;
@@ -502,9 +445,8 @@ body,
   display: none;
 }
 
+/* Expanded state */
 .whatsapp-widget.expanded {
-  bottom: 20px;
-  right: 20px;
   width: 300px;
   max-width: 90vw;
   height: auto;
@@ -523,10 +465,6 @@ body,
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin-bottom: 10px;
 }
 
 .whatsapp-header {

@@ -49,10 +49,11 @@ export default function Carousel() {
                     const txt = await res.text().catch(() => String(res.status));
                     throw new Error('Failed to fetch slides: ' + txt);
                 }
-                const data = await res.json();
-                const mapped = data.map((item) => {
+                const csvData = await res.json();
+                const carouselData = csvData.Carrousel || [];
+                const mapped = carouselData.map((item) => {
                     const title = item.Titulo || item.titulo || item.TITLE || '';
-                    const urlField = item.URL || item.Url || item.url || '';
+                    const urlField = item["URL Foto"] || item.URL || item.Url || item.url || '';
                     // choose image by keyword
                     const low = title.toLowerCase();
                     let img = cuadro;
