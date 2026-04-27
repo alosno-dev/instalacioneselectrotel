@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { RouterProvider } from "react-router-dom"
 import { router } from "./routes"
-import { GlobalProvider } from './hooks/useGlobalReducer'
+import { StoreProvider } from './hooks/useGlobalReducer'
 import { BackendURL } from './components/BackendURL'
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from 'react-helmet-async' 
 
 const Main = () => {
     if (!import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL == "") {
@@ -19,9 +19,9 @@ const Main = () => {
     return (
         <React.StrictMode>
             <HelmetProvider> {/* Envuelve la app con HelmetProvider para los metadatos */}
-                <GlobalProvider>
+                <StoreProvider>
                     <RouterProvider router={router} />
-                </GlobalProvider>
+                </StoreProvider>
             </HelmetProvider>
         </React.StrictMode>
     );

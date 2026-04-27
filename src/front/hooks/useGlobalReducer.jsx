@@ -1,45 +1,24 @@
-import React, { createContext, useReducer, useContext } from 'react';
+// Import necessary hooks and functions from React.
+import { useContext, useReducer, createContext } from "react";
+import storeReducer, { initialStore } from "../store"  // Import the reducer and the initial state.
 
-const GlobalContext = createContext();
+// Create a context to hold the global state of the application
+// We will call this global state the "store" to avoid confusion while using local states
+const StoreContext = createContext()
 
-export const GlobalProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-    return (
-        <GlobalContext.Provider value={{ state, dispatch }}>
-            {children}
-        </GlobalContext.Provider>
-    );
-};
-
-export const useGlobalState = () => useContext(GlobalContext);
-
-
-const initialState = {
-    data: [],
-    loading: false,
-    error: null,
-};
-
-export function reducer(state, action) {
-    switch (action.type) {
-        case 'FETCH_START':
-            return { ...state, loading: true, error: null };
-        case 'FETCH_SUCCESS':
-            return { ...state, loading: false, data: action.payload };
-        case 'FETCH_ERROR':
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
+// Define a provider component that encapsulates the store and warps it in a context provider to 
+// broadcast the information throught all the app pages and components.
+export function StoreProvider({ children }) {
+    // Initialize reducer with the initial state.
+    const [store, dispatch] = useReducer(storeReducer, initialStore())
+    // Provide the store and dispatch method to all child components.
+    return <StoreContext.Provider value={{ store, dispatch }}>
+        {children}
+    </StoreContext.Provider>
 }
 
-// Default hook export for existing code that imports the hook as default
+// Custom hook to access the global state and dispatch function.
 export default function useGlobalReducer() {
-    const context = useContext(GlobalContext);
-    if (!context) {
-        throw new Error('useGlobalReducer must be used within a GlobalProvider');
-    }
-    return { store: context.state, dispatch: context.dispatch };
+    const { dispatch, store } = useContext(StoreContext)
+    return { dispatch, store };
 }
-
