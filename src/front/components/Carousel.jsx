@@ -4,6 +4,7 @@ import TarjetaGrid from "./TarjetaGrid";
 import cuadro from "../assets/img/cuadro-empresas.jpg";
 import puntoRecarga from "../assets/img/punto-recarga.jpeg";
 import suministros from "../assets/img/suministros-electricos.jpg";
+import { useGlobalState } from "../hooks/useGlobalReducer";
 
 export default function Carousel() {
     const emblaRef = useRef(null);
@@ -37,16 +38,24 @@ export default function Carousel() {
     }, []);
 
     const [slides, setSlides] = useState([]);
+    const { state, dispatch } = useGlobalState();
+
 
     // fetch slides from API and map image by keyword
     useEffect(() => {
+        if (state.data.length > 0) return setSlides(state.data);
+
         const ac = new AbortController();
         const load = async () => {
+            dispatch({ type: 'FETCH_START' });
             try {
                 const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || 'http://127.0.0.1:3000';
                 const res = await fetch(`${API_BASE}/api/csv`, { signal: ac.signal });
+                dispatch({ type: 'FETCH_SUCCESS', payload: [] });
+
                 if (!res.ok) {
                     const txt = await res.text().catch(() => String(res.status));
+                    dispatch({ type: 'FETCH_ERROR', payload: txt });
                     throw new Error('Failed to fetch slides: ' + txt);
                 }
                 const csvData = await res.json();
@@ -96,7 +105,7 @@ export default function Carousel() {
     }, [slides]);
 
     return (
-        <div className="w-full py-8">
+        <div className="w-full h-full flex items-center justify-center py-4">
             <div className={`overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`} ref={emblaRef}>
                 <div className="flex">
                     {slides.map((slide, index) => (

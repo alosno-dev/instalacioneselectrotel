@@ -33,7 +33,7 @@ export default function Hero() {
     return (
         <section
             id="hero-section"
-            className="relative w-full h-auto flex flex-col justify-center items-center text-center p-4 gap-4 z-40"
+            className="relative w-full h-auto flex flex-col justify-center items-center text-center p-4 gap-4 z-0"
             style={{
                 backgroundImage: `url(${heroBg})`,
                 backgroundRepeat: 'no-repeat',
@@ -42,7 +42,7 @@ export default function Hero() {
             }}
         >
             <div id="hero-content" className="flex flex-col mt-10 w-full lg:h-screen lg:justify-between justify-center items-center text-center p-4 ">
-                <div ref={contentWrapperRef} className="flex flex-col gap-6 w-full lg:w-[calc(100%-3rem)] lg:justify-start lg:mx-5 lg:mt-5 justify-center items-center lg:items-start lg:text-start z-1" >
+                <div ref={contentWrapperRef} className="flex flex-col gap-6 w-full lg:w-[calc(100%-3rem)] lg:justify-start lg:mx-5 lg:mt-5 justify-center items-center lg:items-start lg:text-start z-1 mb-10" >
                     <div className="flex flex-row justify-center mb-2 gap-2">
                         <FaMapMarkerAlt className="text-blue-600 mr-2" size={24} aria-hidden="true" />
                         <h3 className="text-[16px] md:text-xl">El Puerto de Santa maria</h3>

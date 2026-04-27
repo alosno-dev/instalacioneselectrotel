@@ -51,7 +51,7 @@ export default function HeroAnimation(ref) {
       end: "bottom center+=150",
       pin: ref.contentWrapperRef.current,
       pinSpacing: false,
-      markers: true,
+      markers: false,
     });
 
     gsap.fromTo(
@@ -69,7 +69,7 @@ export default function HeroAnimation(ref) {
           start: "top center+=150",
           end: "bottom center+=150",
           scrub: true,
-          markers: true,
+          markers: false,
         },
       },
     );
