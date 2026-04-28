@@ -7,6 +7,8 @@ import { ContactoHome } from "../components/ContactoHome.jsx"
 import AboutMe from "../components/AboutMe.jsx";
 import Hero from "../components/Hero.jsx";
 import Carousel from "../components/Carousel.jsx";
+import CasosExito from "../components/casosExito.jsx";
+
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
@@ -72,7 +74,7 @@ export const Home = () => {
 
 				/>
 			</div>
-
+			<CasosExito />
 			<AboutMe className="" />
 			<Servicios />
 

@@ -41,7 +41,7 @@ export default function Hero() {
                 backgroundSize: 'cover',
             }}
         >
-            <div id="hero-content" className="flex flex-col mt-10 w-full lg:h-screen lg:justify-between justify-center items-center text-center p-4 ">
+            <div id="hero-content" className="flex flex-col mt-10 w-full lg:h-screen lg:justify-between lg:gap-2 justify-center items-center text-center p-4 ">
                 <div ref={contentWrapperRef} className="flex flex-col gap-6 w-full lg:w-[calc(100%-3rem)] lg:justify-start lg:mx-5 lg:mt-5 justify-center items-center lg:items-start lg:text-start z-1 mb-10" >
                     <div className="flex flex-row justify-center mb-2 gap-2">
                         <FaMapMarkerAlt className="text-blue-600 mr-2" size={24} aria-hidden="true" />
