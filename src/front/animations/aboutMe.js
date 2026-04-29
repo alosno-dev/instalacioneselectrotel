@@ -54,13 +54,25 @@ export default function AboutMeAnimation(ref) {
     if (triggerText && ref.fondoRef?.current) {
       // Select all word-spans inside the text element
       const words = triggerText.querySelectorAll("span");
-      const words2 = triggerText2.querySelectorAll("span");
+      const words2 = triggerText2
+        ? triggerText2.querySelectorAll("span")
+        : words;
       if (words.length > 0) {
         // Get the wrapper container (the h2 element)
         const container = triggerText;
-        const container2 = triggerText2;
+        const container2 = triggerText2 ?? container;
         const centerX = window.innerWidth / 2;
         const baseOffsetX = 260;
+
+        // Ensure spans are inline-block so clipPath and transforms work reliably
+        const allWords = Array.from(
+          new Set([...Array.from(words), ...Array.from(words2)]),
+        );
+        if (allWords.length > 0)
+          gsap.set(allWords, { display: "inline-block" });
+
+        // Hide container2 initially
+        gsap.set(container2, { opacity: 0 });
 
         // Save the original title text to restore when reversing
         const originalText = ref.tituloRef.current.textContent;
@@ -80,6 +92,10 @@ export default function AboutMeAnimation(ref) {
           },
         });
 
+        // Hide container initially and set up words for animation
+        gsap.set(container, { opacity: 0 });
+        gsap.set(words, { x: 300, opacity: 0 });
+
         // Set initial position to center the first word
         const firstWord = words[0];
         const firstWordCenterX =
@@ -90,13 +106,9 @@ export default function AboutMeAnimation(ref) {
         // Each word moves to the center of the viewport
         // Words start 1 second after title animation completes
         words.forEach((word, index) => {
-          // Animate the word coming from the right
+          // Show container at the start of first animation
           if (index === 0) {
-            // First word: just set initial position from right
-            gsap.set(word, { x: 300, opacity: 0 });
-          } else {
-            // Other words: hide them initially
-            gsap.set(word, { x: 300, opacity: 0 });
+            tlText.set(container, { opacity: 1 }, ">1");
           }
 
           // Animate word entrance from right
@@ -149,63 +161,49 @@ export default function AboutMeAnimation(ref) {
           "+=1",
         );
 
-        // Reverse sequence: words disappear to the left while container recenters right
-        for (let i = words2.length - 1; i >= 0; i -= 1) {
-          const word = words2[i];
-          const nextWord = i > 0 ? words2[i - 1] : words2[0];
-          const nextIndex = i > 0 ? i - 1 : 0;
+        // Erase words (original words) from right to left
+        for (let i = words.length - 1; i >= 0; i -= 1) {
+          const word = words[i];
 
-          // Erase effect: letter by letter from right to left
-          tlText.to(
+          tlText.fromTo(
             word,
+            {
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+              opacity: 1,
+            },
             {
               clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
               opacity: 0,
-              duration: 0.3,
+              duration: 0.4,
               ease: "power2.in",
             },
-            ">0.1",
-          );
-
-          tlText.to(
-            word,
-            {
-              x: -120,
-              opacity: 0,
-              duration: 0.2,
-            },
-            "<",
-          );
-
-          tlText.to(
-            container2,
-            {
-              // Slight left displacement instead of centering
-              x: () => {
-                const wordCenterX =
-                  nextWord.offsetLeft + nextWord.offsetWidth / 2;
-                const leftDisplacement = nextIndex === 2 ? 300 : 150;
-                return (
-                  (centerX - wordCenterX) * 0.2 - leftDisplacement + baseOffsetX
-                );
-              },
-              duration: 2,
-              ease: "power3.inOut",
-            },
-            "<",
+            ">0.2",
           );
         }
-        words2.forEach((word, index) => {
-          // Animate the word coming from the right
-          if (index === 0) {
-            // First word: just set initial position from right
-            gsap.set(word, { x: 300, opacity: 0 });
-          } else {
-            // Other words: hide them initially
-            gsap.set(word, { x: 300, opacity: 0 });
-          }
 
-          // Animate word entrance from right
+        // Set words2 initial position BEFORE showing container2
+        gsap.set(words2, { x: 300, opacity: 0 });
+
+        // Hide original container and show words2 container
+        tlText.to(
+          container,
+          {
+            opacity: 0,
+            duration: 0.3,
+          },
+          ">0.2",
+        );
+
+        tlText.set(
+          container2,
+          {
+            opacity: 1,
+          },
+          "<",
+        );
+
+        // Animate words2 entrance from right
+        words2.forEach((word, index) => {
           tlText.to(
             word,
             {
@@ -214,13 +212,12 @@ export default function AboutMeAnimation(ref) {
               duration: 0.8,
               ease: "power2.out",
             },
-            index === 0 ? ">1" : ">0.5",
+            index === 0 ? ">0.5" : ">0.5",
           );
 
           tlText.to(
             container2,
             {
-              // Slight left displacement instead of centering
               x: () => {
                 const wordCenterX = word.offsetLeft + word.offsetWidth / 2;
                 const leftDisplacement = index === 2 ? 300 : 150;
@@ -231,7 +228,7 @@ export default function AboutMeAnimation(ref) {
               duration: 1,
               ease: "power3.inOut",
             },
-            "<", // Start together with word animation
+            "<",
           );
         });
 
@@ -242,6 +239,36 @@ export default function AboutMeAnimation(ref) {
             duration: 1,
           },
           "+=1",
+        );
+
+        // Erase words2 (final words) from right to left
+        for (let i = words2.length - 1; i >= 0; i -= 1) {
+          const word = words2[i];
+
+          tlText.fromTo(
+            word,
+            {
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+              opacity: 1,
+            },
+            {
+              clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+              opacity: 0,
+              duration: 0.4,
+              ease: "power2.in",
+            },
+            ">0.2",
+          );
+        }
+
+        // Hide final container
+        tlText.to(
+          container2,
+          {
+            opacity: 0,
+            duration: 0.3,
+          },
+          "<",
         );
       }
     }
