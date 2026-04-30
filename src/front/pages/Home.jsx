@@ -8,6 +8,7 @@ import AboutMe from "../components/AboutMe.jsx";
 import Hero from "../components/Hero.jsx";
 import Carousel from "../components/Carousel.jsx";
 import CasosExito from "../components/CasosExito.jsx";
+import wallboxAc from '../assets/img/wallbox-ac.png';
 
 
 export const Home = () => {
@@ -51,7 +52,17 @@ export const Home = () => {
 
 			<Hero />
 
-			<div className="lg:h-120"></div>
+			<div className="lg:h-120 h-70 flex flex-col justify-end items-center w-full gap-2 pb-10">
+				<h1 className="lg:text-7xl text-[36px] font-bold text-center lg:leading-20 leading-9">INSTALACIONES ELECTROTEL</h1>
+				<h3 className="text-xl font-semibold text-center lg:leading-10 leading-5">Expertos en corriente, especialistas en confianza.</h3>
+				<div className="flex flex-row justify-center items-center w-screen color-yellow mt-3">
+					<h4>Dómotica | </h4>
+					<h4>Instalaciones | </h4>
+					<h4>Suministros | </h4>
+					<h4>Boletines</h4>
+
+				</div>
+			</div>
 			<div className="w-full flex items-center">
 				<Carousel
 					slides={[
@@ -74,11 +85,12 @@ export const Home = () => {
 
 				/>
 			</div>
-			<Servicios />
 			<AboutMe className="" />
+			<Servicios />
+
 
 			<CasosExito />
-			<div className="block min-h-[600px]">
+			<div className="block min-h-[600px]" id="contacto">
 				<ContactoHome />
 			</div>
 

@@ -62,7 +62,6 @@ export default function AboutMeAnimation(ref) {
         const container = triggerText;
         const container2 = triggerText2 ?? container;
         const centerX = window.innerWidth / 2;
-        const baseOffsetX = 260;
 
         // Ensure spans are inline-block so clipPath and transforms work reliably
         const allWords = Array.from(
@@ -72,7 +71,7 @@ export default function AboutMeAnimation(ref) {
           gsap.set(allWords, { display: "inline-block" });
 
         // Hide container2 initially
-        gsap.set(container2, { opacity: 0 });
+        gsap.set(container2, { autoAlpha: 0 });
 
         // Save the original title text to restore when reversing
         const originalText = ref.tituloRef.current.textContent;
@@ -93,8 +92,8 @@ export default function AboutMeAnimation(ref) {
         });
 
         // Hide container initially and set up words for animation
-        gsap.set(container, { opacity: 0 });
-        gsap.set(words, { x: 300, opacity: 0 });
+        gsap.set(container, { autoAlpha: 0 });
+        gsap.set(words, { x: 300, autoAlpha: 0 });
 
         // Set initial position to center the first word
         const firstWord = words[0];
@@ -106,52 +105,41 @@ export default function AboutMeAnimation(ref) {
         // Each word moves to the center of the viewport
         // Words start 1 second after title animation completes
         words.forEach((word, index) => {
-          // Show container at the start of first animation
           if (index === 0) {
-            tlText.set(container, { opacity: 1 }, ">1");
+            tlText.set(container, { autoAlpha: 1 }, ">1");
           }
 
-          // Animate word entrance from right
-          tlText.to(
+          // 1. La palabra entra desde la derecha
+          tlText.fromTo(
             word,
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power2.out",
-            },
+            { x: 300, autoAlpha: 0 }, // Reducido de 300 a 100 para que sea menos brusco
+            { x: 0, autoAlpha: 1, duration: 0.8, ease: "power2.out" },
             index === 0 ? ">1" : ">0.5",
           );
 
+          // 2. El contenedor se mueve SOLO LO NECESARIO
           tlText.to(
             container,
             {
-              // Slight left displacement instead of centering
               x: () => {
-                const wordCenterX = word.offsetLeft + word.offsetWidth / 2;
-                const leftDisplacement = index === 2 ? 300 : 150;
-                return (
-                  (centerX - wordCenterX) * 0.2 - leftDisplacement + baseOffsetX
-                );
+                if (index === 0)
+                  return centerX - (word.offsetLeft + word.offsetWidth / 2);
+
+                // CÁLCULO CLAVE:
+                // En lugar de una fórmula compleja, restamos un valor fijo por palabra
+                // para que la 'cinta' avance de forma constante.
+                const gapBetweenWords = 140; // <--- AJUSTA ESTO: Menos valor = menos movimiento a la izquierda
+                const initialPos =
+                  centerX - (words[0].offsetLeft + words[0].offsetWidth / 2);
+
+                return initialPos - index * gapBetweenWords;
               },
               duration: 1,
               ease: "power3.inOut",
             },
-            "<", // Start together with word animation
-          );
-
-          tlText.to(
-            ref.tituloRef.current,
-            {
-              // Move title left by 200px from its current position
-              x: "-=200",
-              duration: 1,
-              ease: "power3.inOut",
-            },
-            "<", // Synchronized with container movement
+            "<",
           );
         });
-
         tlText.to(
           container,
           {
@@ -181,95 +169,12 @@ export default function AboutMeAnimation(ref) {
           );
         }
 
-        // Set words2 initial position BEFORE showing container2
-        gsap.set(words2, { x: 300, opacity: 0 });
-
-        // Hide original container and show words2 container
-        tlText.to(
-          container,
-          {
-            opacity: 0,
-            duration: 0.3,
-          },
-          ">0.2",
-        );
-
-        tlText.set(
-          container2,
-          {
-            opacity: 1,
-          },
-          "<",
-        );
-
-        // Animate words2 entrance from right
-        words2.forEach((word, index) => {
-          tlText.to(
-            word,
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power2.out",
-            },
-            index === 0 ? ">0.5" : ">0.5",
-          );
-
-          tlText.to(
-            container2,
-            {
-              x: () => {
-                const wordCenterX = word.offsetLeft + word.offsetWidth / 2;
-                const leftDisplacement = index === 2 ? 300 : 150;
-                return (
-                  (centerX - wordCenterX) * 0.2 - leftDisplacement + baseOffsetX
-                );
-              },
-              duration: 1,
-              ease: "power3.inOut",
-            },
-            "<",
-          );
+        // Scale down the background section during the timeline
+        tlText.to(ref.fondoRef.current, {
+          scale: 0.6,
+          transformOrigin: "center center",
+          duration: 1,
         });
-
-        tlText.to(
-          container2,
-          {
-            opacity: 1,
-            duration: 1,
-          },
-          "+=1",
-        );
-
-        // Erase words2 (final words) from right to left
-        for (let i = words2.length - 1; i >= 0; i -= 1) {
-          const word = words2[i];
-
-          tlText.fromTo(
-            word,
-            {
-              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-              opacity: 1,
-            },
-            {
-              clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
-              opacity: 0,
-              duration: 0.4,
-              ease: "power2.in",
-            },
-            ">0.2",
-          );
-        }
-
-        // Hide final container
-        tlText.to(
-          container2,
-          {
-            opacity: 0,
-            duration: 0.3,
-          },
-          "<",
-        );
       }
     }
 

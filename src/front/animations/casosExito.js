@@ -11,70 +11,173 @@ const waitForSingleImage = (img) => {
 };
 
 export default function CasosExito(containerRef, imageRef) {
-  if (!containerRef?.current) return;
+  if (!containerRef?.current) return () => {};
 
-  let cleanupImageWait = () => {};
-  let delayedRefreshTimer;
   gsap.registerPlugin(ScrollTrigger);
 
-  const ctx = gsap.context(() => {
-    // Create a timeline that is directly controlled by ScrollTrigger (scrub)
-    const tl = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        markers: true,
-        pin: imageRef?.current,
-      },
-    });
+  let ctx;
+  let timers = [];
 
-    const refreshTriggers = () => {
-      ScrollTrigger.refresh();
-    };
-
-    const waitForImages = () => {
-      const images = Array.from(containerRef.current.querySelectorAll("img"));
-
-      if (images.length === 0) {
-        refreshTriggers();
-        return () => {};
+  try {
+    ctx = gsap.context(() => {
+      // Validar que el elemento a pinear exista
+      if (!imageRef?.current) {
+        console.warn("imageRef.current no está disponible para pinear");
+        return;
       }
 
-      const imagePromises = images.map(waitForSingleImage);
+      // Create a timeline that is directly controlled by ScrollTrigger (scrub)
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom-=200 bottom",
+          markers: false,
+          pin: imageRef.current,
+          invalidateOnRefresh: true,
+        },
+      });
 
-      Promise.all(imagePromises).then(refreshTriggers);
+      // inicializar textGroup: opacidad y textPaths con startOffset
 
-      const fallbackTimer = setTimeout(refreshTriggers, 2000);
-      let readyTimer;
-      const onWindowLoad = () => {
-        readyTimer = setTimeout(refreshTriggers, 500);
+      gsap.set("#text1", {
+        attr: { startOffset: "0%" },
+        opacity: 0,
+      });
+
+      gsap.set("#text2", {
+        attr: { startOffset: "0%" },
+        opacity: 0,
+      });
+
+      const tl2 = gsap.timeline({
+        defaults: { ease: "power3.inOut" },
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top center",
+          end: "bottom-=200 bottom",
+          markers: false,
+          invalidateOnRefresh: true,
+          scrub: 1,
+        },
+      });
+
+      tl2.to(
+        ".logoIzquierda",
+        {
+          duration: 0.2,
+          x: 200,
+          opacity: 1,
+          ease: "power3.out",
+        },
+        0,
+      );
+      tl2.to(
+        "#text1",
+        {
+          attr: { startOffset: "50%" },
+          opacity: 1,
+          duration: 2,
+          ease: "power3.out",
+        },
+        0,
+      );
+
+      const tl3 = gsap.timeline({
+        defaults: { ease: "power3.inOut" },
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "center-=200 center",
+          end: "bottom-=200 bottom",
+          markers: false,
+          invalidateOnRefresh: true,
+          scrub: 1,
+        },
+      });
+      tl3.to("#text1", {
+        attr: { startOffset: "100%" },
+        opacity: 0,
+        duration: 1,
+      });
+      tl3.to(
+        "#text2",
+        {
+          attr: { startOffset: "50%" },
+          opacity: 1,
+          duration: 1,
+        },
+        0,
+      );
+
+      const refreshTriggers = () => {
+        ScrollTrigger.getAll().forEach((trigger) => {
+          trigger.refresh();
+        });
       };
 
-      if (document.readyState === "complete") {
-        onWindowLoad();
-      } else {
-        window.addEventListener("load", onWindowLoad);
-      }
+      const waitForImages = () => {
+        const images = Array.from(containerRef.current.querySelectorAll("img"));
 
-      return () => {
-        clearTimeout(fallbackTimer);
-        if (readyTimer) clearTimeout(readyTimer);
-        window.removeEventListener("load", onWindowLoad);
+        if (images.length === 0) {
+          refreshTriggers();
+          return () => {};
+        }
+
+        const imagePromises = images.map(waitForSingleImage);
+
+        Promise.all(imagePromises).then(() => {
+          const timer = setTimeout(refreshTriggers, 500);
+          timers.push(timer);
+        });
+
+        const fallbackTimer = setTimeout(refreshTriggers, 2000);
+        timers.push(fallbackTimer);
+
+        let readyTimer;
+        const onWindowLoad = () => {
+          readyTimer = setTimeout(refreshTriggers, 500);
+          timers.push(readyTimer);
+        };
+
+        if (document.readyState === "complete") {
+          onWindowLoad();
+        } else {
+          window.addEventListener("load", onWindowLoad, { once: true });
+        }
+
+        return () => {
+          window.removeEventListener("load", onWindowLoad);
+        };
       };
-    };
 
-    cleanupImageWait = waitForImages();
+      waitForImages();
 
-    delayedRefreshTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 300);
-  }, containerRef.current);
+      const delayedRefreshTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
+      timers.push(delayedRefreshTimer);
+    }, containerRef.current);
+  } catch (error) {
+    console.error("Error en CasosExitoAnimation:", error);
+  }
 
+  // Retornar función de cleanup
   return () => {
-    cleanupImageWait();
-    if (delayedRefreshTimer) clearTimeout(delayedRefreshTimer);
-    ctx.revert();
+    // Limpiar todos los timers
+    timers.forEach((timer) => clearTimeout(timer));
+    timers = [];
+
+    // Destruir ScrollTriggers creados en este contexto
+    if (ctx) {
+      ctx.revert();
+    }
+
+    // Limpiar todos los ScrollTriggers
+    ScrollTrigger.getAll().forEach((trigger) => {
+      if (trigger.trigger === containerRef.current) {
+        trigger.kill();
+      }
+    });
   };
 }

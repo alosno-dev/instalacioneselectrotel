@@ -1,7 +1,6 @@
-import wallboxAc from '../assets/img/wallbox-ac.png';
 import { useEffect, useRef } from 'react';
 import AboutMeAnimation from '../animations/aboutMe';
-
+import videFondo from '../assets/video/Bombilla.mp4';
 export default function AboutMe() {
     const fondoRef = useRef(null);
     const textRef = useRef(null);
@@ -21,24 +20,36 @@ export default function AboutMe() {
 
     return (
         <section className="relative z-20 flex flex-col h-220 w-full p-8 gap-2 justify-center items-center" ref={fondoRef}>
-            <section className="h-100 gap-2 bg-[#20438A] flex flex-col justify-center items-center">
-                <h4 className="text-6xl font-extrabold text-white opacity-0" ref={tituloRef}>SOBRE NOSOTROS</h4>
+            <section className="seccionFondo relative h-screen gap-2 flex flex-col justify-center items-center overflow-hidden">
+                {/* Video de fondo */}
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className="absolute inset-0 w-full h-full object-cover"
+                >
+                    <source src={videFondo} type="video/mp4" />
+                    Tu navegador no soporta videos HTML5
+                </video>
 
-                <h2 className='text-4xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4' ref={textRef}>{words.map((word, index) => (
-                    <span className="whitespace-nowrap flex-shrink-0" key={`${word}-${index}`}>{word}</span>
-                ))}</h2>
+                {/* Overlay oscuro opcional para mejor legibilidad */}
+                <div className="absolute inset-0 bg-black/40 z-0"></div>
+
+                {/* Contenido superpuesto */}
+                <div className="relative z-10 flex flex-col justify-center items-center w-full h-full gap-4">
+                    <h4 className="text-6xl font-extrabold text-white opacity-0" ref={tituloRef}>SOBRE NOSOTROS</h4>
+
+                    <h2 className='lg:text-4xl text-xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4 opacity-0' ref={textRef}>{words.map((word, index) => (
+                        <span className="whitespace-nowrap flex-shrink-0" key={`${word}-${index}`}>{word}</span>
+                    ))}</h2>
 
 
-                <h2 className='text-3xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4 opacity-0' ref={text2Ref}>{words2.map((word, index) => (
-                    <span key={`${word}-${index}`} className="inline-block mr-2">{word}</span>
-                ))}</h2>
+                    <h2 className='text-3xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4 opacity-0' ref={text2Ref}>{words2.map((word, index) => (
+                        <span key={`${word}-${index}`} className="inline-block mr-2">{word}</span>
+                    ))}</h2>
 
-                <img
-                    className="my-2 w-[393px] h-auto object-cover opacity-0"
-                    src={wallboxAc}
-                    alt="Wallbox AC - Cargador de vehículos eléctricos"
-                    loading="lazy"
-                />
+
+                </div>
             </section>
         </section>
     );
