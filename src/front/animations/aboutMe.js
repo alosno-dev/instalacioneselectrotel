@@ -29,6 +29,7 @@ export default function AboutMeAnimation(ref) {
         end: "top+=100 center",
         scrub: true,
         markers: false,
+        invalidateOnRefresh: true,
       },
     });
 
@@ -50,6 +51,7 @@ export default function AboutMeAnimation(ref) {
     // Scrolling Typography: Conveyor Belt Effect
     const triggerText = ref.textRef?.current ?? null;
     const triggerText2 = ref.text2Ref?.current ?? null;
+    const imgWallbox = ref.imgWallbox?.current ?? null;
 
     if (triggerText && ref.fondoRef?.current) {
       // Select all word-spans inside the text element
@@ -73,9 +75,6 @@ export default function AboutMeAnimation(ref) {
         // Hide container2 initially
         gsap.set(container2, { autoAlpha: 0 });
 
-        // Save the original title text to restore when reversing
-        const originalText = ref.tituloRef.current.textContent;
-
         const tlText = gsap.timeline({
           scrollTrigger: {
             trigger: ref.fondoRef.current,
@@ -86,7 +85,6 @@ export default function AboutMeAnimation(ref) {
             markers: false,
             anticipatePin: 1,
             pinSpacing: true,
-
             invalidateOnRefresh: true,
           },
         });
@@ -99,7 +97,7 @@ export default function AboutMeAnimation(ref) {
         const firstWord = words[0];
         const firstWordCenterX =
           firstWord.offsetLeft + firstWord.offsetWidth / 2;
-        gsap.set(container, { x: centerX - firstWordCenterX });
+        gsap.set(container, { x: centerX + firstWordCenterX });
 
         // Animate each word with conveyor belt effect
         // Each word moves to the center of the viewport
@@ -112,7 +110,7 @@ export default function AboutMeAnimation(ref) {
           // 1. La palabra entra desde la derecha
           tlText.fromTo(
             word,
-            { x: 300, autoAlpha: 0 }, // Reducido de 300 a 100 para que sea menos brusco
+            { x: 100, autoAlpha: 0 }, // Reducido de 300 a 100 para que sea menos brusco
             { x: 0, autoAlpha: 1, duration: 0.8, ease: "power2.out" },
             index === 0 ? ">1" : ">0.5",
           );
@@ -149,25 +147,26 @@ export default function AboutMeAnimation(ref) {
           "+=1",
         );
 
-        // Erase words (original words) from right to left
-        for (let i = words.length - 1; i >= 0; i -= 1) {
-          const word = words[i];
+        tlText.to(
+          container,
+          {
+            y: -100,
+            duration: 1,
+            ease: "power3.inOut",
+          },
+          ">",
+        );
 
-          tlText.fromTo(
-            word,
-            {
-              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-              opacity: 1,
-            },
-            {
-              clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
-              opacity: 0,
-              duration: 0.4,
-              ease: "power2.in",
-            },
-            ">0.2",
-          );
-        }
+        tlText.to(
+          imgWallbox,
+          {
+            y: -50,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.inOut",
+          },
+          ">",
+        );
 
         // Scale down the background section during the timeline
         tlText.to(ref.fondoRef.current, {

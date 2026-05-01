@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useEffect, useState } from "react";
 const waitForSingleImage = (img) => {
   if (img.complete) return Promise.resolve();
 
@@ -10,9 +10,7 @@ const waitForSingleImage = (img) => {
   });
 };
 
-export default function CasosExito(containerRef, imageRef) {
-  if (!containerRef?.current) return () => {};
-
+export default function CasosExito(containerRef, imageRef, isMobile) {
   gsap.registerPlugin(ScrollTrigger);
 
   let ctx;
@@ -32,7 +30,7 @@ export default function CasosExito(containerRef, imageRef) {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "bottom-=200 bottom",
+          end: isMobile ? "bottom bottom" : "bottom-=200 bottom",
           markers: false,
           pin: imageRef.current,
           invalidateOnRefresh: true,
@@ -42,12 +40,12 @@ export default function CasosExito(containerRef, imageRef) {
       // inicializar textGroup: opacidad y textPaths con startOffset
 
       gsap.set("#text1", {
-        attr: { startOffset: "0%" },
+        attr: { startOffset: isMobile ? "75%" : "0%" },
         opacity: 0,
       });
 
       gsap.set("#text2", {
-        attr: { startOffset: "0%" },
+        attr: { startOffset: isMobile ? "75%" : "0%" },
         opacity: 0,
       });
 
@@ -55,7 +53,7 @@ export default function CasosExito(containerRef, imageRef) {
         defaults: { ease: "power3.inOut" },
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top center",
+          start: isMobile ? "top top" : "top center",
           end: "bottom-=200 bottom",
           markers: false,
           invalidateOnRefresh: true,
@@ -67,7 +65,8 @@ export default function CasosExito(containerRef, imageRef) {
         ".logoIzquierda",
         {
           duration: 0.2,
-          x: 200,
+          x: isMobile ? 0 : 200,
+          y: isMobile ? 150 : 0,
           opacity: 1,
           ease: "power3.out",
         },
@@ -76,7 +75,7 @@ export default function CasosExito(containerRef, imageRef) {
       tl2.to(
         "#text1",
         {
-          attr: { startOffset: "50%" },
+          attr: isMobile ? { startOffset: "25%" } : { startOffset: "50%" },
           opacity: 1,
           duration: 2,
           ease: "power3.out",
@@ -96,14 +95,14 @@ export default function CasosExito(containerRef, imageRef) {
         },
       });
       tl3.to("#text1", {
-        attr: { startOffset: "100%" },
+        attr: isMobile ? { startOffset: "-25%" } : { startOffset: "100%" },
         opacity: 0,
         duration: 1,
       });
       tl3.to(
         "#text2",
         {
-          attr: { startOffset: "50%" },
+          attr: isMobile ? { startOffset: "25%" } : { startOffset: "50%" },
           opacity: 1,
           duration: 1,
         },

@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
+import wallBox from '../assets/img/wallbox-ac.png';
 import AboutMeAnimation from '../animations/aboutMe';
 import videFondo from '../assets/video/Bombilla.mp4';
+
+
 export default function AboutMe() {
     const fondoRef = useRef(null);
     const textRef = useRef(null);
@@ -9,10 +12,10 @@ export default function AboutMe() {
     const frase2 = "Energía segura. Instalaciones precisas. Confianza que perdura";
     const words = ["Garantizamos eficiencia,", "seguridad", "y confianza a largo plazo"];
     const words2 = ["Energía segura.", "Instalaciones precisas.", "Confianza que perdura."]; // Dividimos la frase en palabras para animarlas individualmente
-    const tituloRef = useRef(null);
+    const imgWallbox = useRef(null);
 
     useEffect(() => {
-        const cleanup = AboutMeAnimation({ sectionRef: fondoRef, fondoRef, textRef: textRef, text2Ref: text2Ref, tituloRef: tituloRef });
+        const cleanup = AboutMeAnimation({ sectionRef: fondoRef, fondoRef, textRef: textRef, text2Ref: text2Ref, imgWallbox: imgWallbox });
         return () => {
             if (cleanup) cleanup();
         };
@@ -36,18 +39,13 @@ export default function AboutMe() {
                 <div className="absolute inset-0 bg-black/40 z-0"></div>
 
                 {/* Contenido superpuesto */}
-                <div className="relative z-10 flex flex-col justify-center items-center w-full h-full gap-4">
-                    <h4 className="text-6xl font-extrabold text-white opacity-0" ref={tituloRef}>SOBRE NOSOTROS</h4>
+                <div className="relative z-10 flex flex-col justify-center items-center w-full h-20 gap-4">
 
-                    <h2 className='lg:text-4xl text-xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4 opacity-0' ref={textRef}>{words.map((word, index) => (
-                        <span className="whitespace-nowrap flex-shrink-0" key={`${word}-${index}`}>{word}</span>
+                    <h2 className='lg:text-4xl text-xl text-white font-bold flex items-center justify-start w-screen gap-4 opacity-0 h-20' ref={textRef}>{words.map((word, index) => (
+                        <span className="whitespace-nowrap flex-shrink-0 h-15" key={`${word}-${index}`}>{word}</span>
                     ))}</h2>
 
-
-                    <h2 className='text-3xl text-white font-bold flex items-center justify-start w-screen h-auto gap-4 opacity-0' ref={text2Ref}>{words2.map((word, index) => (
-                        <span key={`${word}-${index}`} className="inline-block mr-2">{word}</span>
-                    ))}</h2>
-
+                    <img src={wallBox} alt="WallBox" className="lg:w-80 w-50 opacity-0" ref={imgWallbox} />
 
                 </div>
             </section>

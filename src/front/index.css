@@ -338,6 +338,7 @@ body,
 
 .contacto-form {
   margin: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -346,7 +347,7 @@ body,
 .contacto-form input,
 .contacto-form textarea {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid hsl(0, 0%, 80%);
   border-radius: 6px;
   font-size: 16px;
 }

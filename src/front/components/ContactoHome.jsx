@@ -35,10 +35,10 @@ export const ContactoHome = () => {
   return (
     <section className="contacto-home" id="contacto">
 
-      <div className="relative w-full h-screen lg:flex lg:flex-row">
-        <img src={contactoFoto} alt="Imagen electricista trabajando" className="fotoContacto absolute inset-0 max-w-200 h-full object-cover lg:static lg:min-w-150" />
+      <div className="w-full h-auto flex flex-col gap-5 lg:gap-0 lg:flex-row">
+        <img src={contactoFoto} alt="Imagen electricista trabajando" className="fotoContacto max-w-200 object-cover min-w-10 lg:min-w-150" />
 
-        <form onSubmit={handleSubmit} className="contacto-form absolute inset-0 lg:static lg:flex lg:flex-col flex-1 lg:relative">
+        <form onSubmit={handleSubmit} className="contacto-form static flex flex-col lg:h-full h-full flex-1">
           <h2>Contáctanos</h2>
           <input name="nombre" type="text" placeholder="Tu nombre" value={form.nombre} onChange={handleChange} required />
           <input name="telefono" type="tel" placeholder="Tu teléfono" value={form.telefono} onChange={handleChange} />
@@ -46,7 +46,7 @@ export const ContactoHome = () => {
           <textarea name="mensaje" placeholder="Tu mensaje" value={form.mensaje} onChange={handleChange} required />
           {error && <p className="form-error">{error}</p>}
           {enviado && <p className="form-success">¡Mensaje enviado correctamente!</p>}
-          <button type="submit" className="btn-enviar flex flex-row justify-between items-center h-10">
+          <button type="submit" className="btn-enviar flex flex-row justify-center items-center gap-1 h-10">
             <FaPaperPlane className="me-2" /> Enviar
           </button>
         </form>
