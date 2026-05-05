@@ -31,8 +31,6 @@ php_errorlog
 ehthumbs.db
 Thumbs.db
 
-src/front/assets/img/
-src/front/assets/video/
 
 # ignore Editor files
 *.sublime-project

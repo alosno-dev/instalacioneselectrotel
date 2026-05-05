@@ -19,7 +19,7 @@ export default function Hero() {
     useEffect(() => {
         // Definimos el estado inicial de CSS para asegurar que no se vea antes de que cargue JS
         gsap.set(fondoRef.current, {
-            clipPath: "inset(0% 0% 100% 0%)", // 100% abajo = oculta
+            clipPath: "inset(0% 0% 100% 0%)",
         });
     }, []);
 
@@ -35,7 +35,7 @@ export default function Hero() {
             id="hero-section"
             className="relative w-full h-auto flex flex-col justify-center items-center text-center lg:p-4 gap-4 z-0"
             style={{
-                backgroundImage: `url(${heroBg})`,
+                backgroundImage: `url("https://res.cloudinary.com/dhzttglcb/image/upload/v1777999295/hero-bg_uimd5r.jpg")`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
@@ -85,7 +85,7 @@ export default function Hero() {
                     <img
                         ref={fondoRef}
                         className="absolute w-full h-full object-cover"
-                        src={fondoHero}
+                        src="https://res.cloudinary.com/dhzttglcb/image/upload/v1777999296/fondo-hero_p8mxbl.jpg"
                         alt="Fondo de hero"
                         loading="lazy"
                     />
@@ -94,7 +94,7 @@ export default function Hero() {
                     }
                     <img
                         className="absolute lg:right-20 2xl:h-290 xl:h-220 h-200 w-auto pointer-events-none max-w-none"
-                        src={paloElectrico}
+                        src="https://res.cloudinary.com/dhzttglcb/image/upload/v1777999295/palo-electrico_q1ztjy.png"
                         ref={paloElectricoRef}
                         alt="Palo eléctrico"
                         loading="lazy"

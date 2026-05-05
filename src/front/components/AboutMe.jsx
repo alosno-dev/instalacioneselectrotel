@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import wallBox from '../assets/img/wallbox-ac.png';
 import AboutMeAnimation from '../animations/aboutMe';
-import videFondo from '../assets/video/Bombilla.mp4';
 
 
 export default function AboutMe() {
@@ -31,7 +30,7 @@ export default function AboutMe() {
                     muted
                     className="absolute inset-0 w-full h-full object-cover"
                 >
-                    <source src={videFondo} type="video/mp4" />
+                    <source src="https://res.cloudinary.com/dhzttglcb/video/upload/v1777999320/Bombilla_ha22sa.mp4" type="video/mp4" />
                     Tu navegador no soporta videos HTML5
                 </video>
 
