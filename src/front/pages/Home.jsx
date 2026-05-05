@@ -51,8 +51,7 @@ export const Home = () => {
 			</Helmet>
 
 			<Hero />
-
-			<div className="lg:h-120 h-70 flex flex-col justify-end items-center w-full gap-2 pb-10">
+			<div className="2xl:h-120 xl:h-180 h-70 flex flex-col justify-end items-center w-full gap-2 pb-10">
 				<h1 className="lg:text-7xl text-[36px] font-bold text-center lg:leading-20 leading-9">INSTALACIONES ELECTROTEL</h1>
 				<h3 className="text-xl font-semibold text-center lg:leading-10 leading-5">Expertos en corriente, especialistas en confianza.</h3>
 				<div className="flex flex-row justify-center items-center w-screen color-yellow mt-3">
@@ -60,9 +59,9 @@ export const Home = () => {
 					<h4>Instalaciones | </h4>
 					<h4>Suministros | </h4>
 					<h4>Boletines</h4>
-
 				</div>
 			</div>
+
 			<div className="w-full flex items-center">
 				<Carousel
 					slides={[
@@ -85,14 +84,11 @@ export const Home = () => {
 
 				/>
 			</div>
-			<AboutMe className="" />
+			<AboutMe />
 			<Servicios />
-
-
 			<CasosExito />
-			<div className="block min-h-[600px]" id="contacto">
-				<ContactoHome />
-			</div>
+			<ContactoHome />
+
 
 		</>
 	);

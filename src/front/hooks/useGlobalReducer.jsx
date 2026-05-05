@@ -16,9 +16,16 @@ export const useGlobalState = () => useContext(GlobalContext);
 
 
 const initialState = {
-    data: [],
+    data: {
+        casosExito: [],
+        servicios: []
+    },
     loading: false,
     error: null,
+    fetched: {
+        casosExito: false,
+        servicios: false
+    }
 };
 
 export function reducer(state, action) {
@@ -26,7 +33,18 @@ export function reducer(state, action) {
         case 'FETCH_START':
             return { ...state, loading: true, error: null };
         case 'FETCH_SUCCESS':
-            return { ...state, loading: false, data: action.payload };
+            return {
+                ...state,
+                loading: false,
+                data: {
+                    ...state.data,
+                    [action.payload.type]: action.payload.data
+                },
+                fetched: {
+                    ...state.fetched,
+                    [action.payload.type]: true
+                }
+            };
         case 'FETCH_ERROR':
             return { ...state, loading: false, error: action.payload };
         default:

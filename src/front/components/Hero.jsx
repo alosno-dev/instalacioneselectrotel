@@ -93,7 +93,7 @@ export default function Hero() {
                     {// Imagen de cabina
                     }
                     <img
-                        className="absolute lg:right-20 lg:h-290 h-200 w-auto max-w-none"
+                        className="absolute lg:right-20 2xl:h-290 xl:h-220 h-200 w-auto pointer-events-none max-w-none"
                         src={paloElectrico}
                         ref={paloElectricoRef}
                         alt="Palo eléctrico"

@@ -24,7 +24,7 @@ export function useServiceAnimationAdvanced(sectionRef, currentIndex, totalSlide
         if (!sectionRef?.current) return;
 
         const createTriggers = () => {
-            // ⭐ LIMPIA triggers anteriores para evitar duplicados
+
             ScrollTrigger.getAll().forEach(trigger => {
                 if (trigger.id === "triggerDown") {
                     trigger.kill();
@@ -56,7 +56,7 @@ export function useServiceAnimationAdvanced(sectionRef, currentIndex, totalSlide
             // TRIGGER: Pinea el componente y controla el scrub
             triggerDownRef.current = ScrollTrigger.create({
                 trigger: sectionRef.current,
-                start: "-30px top",
+                start: "top top",
                 end: `+=${(totalSlides - 1) * 300}px`,  // Más espacio para scrollear a través de slides
                 scrub: 1.2,  // Scrub para vincular scroll con animación (1.2 = lag suave)
                 pin: true,  // Pinea el componente

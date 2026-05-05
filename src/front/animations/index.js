@@ -8,5 +8,5 @@ ScrollSmoother.create({
   wrapper: "#smooth-wrapper",
   content: "#smooth-content",
   smooth: 1.5,
-  effects: true, // Permite efectos de paralaje fácilmente
+  effects: true,
 });

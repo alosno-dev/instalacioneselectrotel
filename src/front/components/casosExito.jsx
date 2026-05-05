@@ -6,6 +6,7 @@ import logo from '../assets/img/ribera.png';
 import heroBg from '../assets/img/hero-bg.jpg';
 import CasosExitoAnimation from '../animations/casosExito';
 import { useEffect, useRef, useState } from 'react';
+import { useGlobalState } from '../hooks/useGlobalReducer';
 
 export default function CasosExito() {
     const containerRef = useRef(null);
@@ -40,6 +41,56 @@ export default function CasosExito() {
         };
     }, [isMobile]);
 
+    const [slides, setSlides] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const { state, dispatch } = useGlobalState();
+
+    useEffect(() => {
+        // Si ya se hizo fetch de Casos de Éxito, usar datos del estado global
+        if (state.fetched.casosExito) {
+            setSlides(state.data.casosExito);
+            return;
+        }
+
+        const ac = new AbortController();
+
+        const load = async () => {
+            setLoading(true);
+            dispatch({ type: 'FETCH_START' });
+            try {
+                const API_BASE = import.meta.env?.VITE_API_URL || 'http://localhost:3000';
+                const res = await fetch(`${API_BASE}/api/csv`, { signal: ac.signal });
+
+                if (!res.ok) throw new Error('Error en la carga');
+
+                const csvData = await res.json();
+
+                // Accedemos a la clave exacta del JSON (con espacios y tildes)
+                const casosData = csvData["Casos de éxito"] || [];
+
+                const mapped = casosData.map((item) => ({
+                    empresa: item["Empresa"] || '',
+                    urlImg: item["URL Foto trabajo"] || '', // Foto del trabajo realizado
+                    urlLogo: item["URL Foto empresa"] || '' // Logo de la empresa
+                }));
+
+                setSlides(mapped);
+                dispatch({ type: 'FETCH_SUCCESS', payload: { type: 'casosExito', data: mapped } });
+
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error fetching:', error);
+                    dispatch({ type: 'FETCH_ERROR', payload: error.message });
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        load();
+        return () => ac.abort();
+    }, [state.fetched.casosExito, dispatch]);
+
     return (
         <section className={`h-auto w-screen flex lg:flex-row flex-col items-start bg-url(${heroBg}) bg-cover bg-center relative overflow-hidden`} ref={containerRef}>
             <div className="lg:h-screen lg:w-150 h-60 w-screen lg:absolute lg:left-0 flex flex-col justify-center lg:items-center items-end lg:z-0 z-40 background-white" ref={imageRef}>
@@ -68,25 +119,25 @@ export default function CasosExito() {
             </div>
 
             <div className='grid grid-rows-4 grid-cols-8 w-screen h-400 justify-items-center z-10 lg:py-4 lg:pr-8 gap-4'>
-                {/*1*/}
 
+                {/*1*/}
                 <div className='h-full w-full col-start-1 lg:col-start-4 col-span-1 row-start-1 relative overflow-visible'>
-                    <img src={logo} alt="Logo" className='h-full w-[100px] max-w-none lg:w-full object-contain absolute z-10 lg:mx-0' style={isMobile ? { right: '-220%' } : { right: '-25%' }} />
+                    <img src={slides[0]?.urlLogo} alt={slides[0]?.Empresa} className='h-full w-[100px] max-w-none lg:w-full object-contain absolute z-10 lg:mx-0' style={isMobile ? { right: '-220%' } : { right: '-25%' }} />
                 </div>
                 <div className='h-full w-full lg:col-start-5  col-start-1 col-span-8 lg:col-span-4 row-start-1 relative'>
-                    <img src={mercado} alt="Mercado" className='h-full w-full object-cover' />
+                    <img src={slides[0]?.urlImg} alt={slides[0]?.Empresa} className='h-full w-full object-cover' />
                     <div className='absolute inset-0 pointer-events-none' style={isMobile ? { background: 'linear-gradient(-105.5deg, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 65%)', } : {
                         background: 'linear-gradient(-105.5deg, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 80%)',
                     }} />
                 </div>
                 {/*2*/}
                 <div className='h-full w-full col-start-8 col-span-1 row-start-2 relative overflow-visible z-10'>
-                    <img src={logo} alt="Logo" className='absolute h-full lg:w-full w-[100px] max-w-none object-contain z-10' style={isMobile ? { left: '-220%' } : { left: '-25%' }} />
+                    <img src={slides[1]?.urlLogo} alt={slides[1]?.Empresa} className='absolute h-full lg:w-full w-[100px] max-w-none object-contain z-10' style={isMobile ? { left: '-220%' } : { left: '-25%' }} />
                 </div>
                 <div className='h-full w-full col-start-1 lg:col-start-4 row-start-2 col-span-8 lg:col-span-4 justify-self-end relative'>
                     <img
-                        src={mercado}
-                        alt="Mercado"
+                        src={slides[1]?.urlImg}
+                        alt={slides[1]?.Empresa}
                         className='h-full w-full object-cover'
                     />
                     <div className='absolute inset-0 pointer-events-none' style={isMobile ? { background: 'linear-gradient(105.5deg, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 65%)', } : {

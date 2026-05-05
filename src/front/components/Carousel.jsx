@@ -5,6 +5,7 @@ import cuadro from "../assets/img/cuadro-empresas.jpg";
 import puntoRecarga from "../assets/img/punto-recarga.jpeg";
 import suministros from "../assets/img/suministros-electricos.jpg";
 import { useGlobalState } from "../hooks/useGlobalReducer";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Carousel() {
     const emblaRef = useRef(null);
@@ -15,6 +16,7 @@ export default function Carousel() {
 
     // nuevo: flex-basis responsivo para mostrar "parte" del siguiente slide
     const [basis, setBasis] = useState("calc(100% / 3.5)");
+
 
     useEffect(() => {
         const updateBasis = () => {
@@ -103,6 +105,15 @@ export default function Carousel() {
 
         return () => embla.destroy();
     }, [slides]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            ScrollTrigger.refresh();
+            console.log("ScrollTrigger refrescado por cambio en Carousel");
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, [slides, basis]);
 
     return (
         <div className="w-full h-full flex items-center justify-center py-4">

@@ -36,7 +36,7 @@ export const MainNavbar = () => {
             <a href="/presupuesto" className="inline-block px-2 py-1">Presupuesto</a>
           </li>
           <li>
-            <a href="/contacto" className="inline-block px-2 py-1">Contacto</a>
+            <a href="#contacto" className="inline-block px-2 py-1">Contacto</a>
           </li>
         </ul>
 

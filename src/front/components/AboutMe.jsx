@@ -22,7 +22,7 @@ export default function AboutMe() {
     }, []);
 
     return (
-        <section className="relative z-20 flex flex-col h-220 w-full p-8 gap-2 justify-center items-center" ref={fondoRef}>
+        <section className="relative z-20 flex flex-col h-screen w-full gap-2 justify-center items-center" ref={fondoRef}>
             <section className="seccionFondo relative h-screen gap-2 flex flex-col justify-center items-center overflow-hidden">
                 {/* Video de fondo */}
                 <video
