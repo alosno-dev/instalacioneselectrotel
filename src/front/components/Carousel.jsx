@@ -64,13 +64,14 @@ export default function Carousel() {
                 const carouselData = csvData.Carrousel || [];
                 const mapped = carouselData.map((item) => {
                     const title = item.Titulo || item.titulo || item.TITLE || '';
+                    const description = item.Descripcion || item["Descripción"] || item.DESCRIPCION || '';
                     const urlField = item["URL Foto"] || item.URL || item.Url || item.url || '';
                     // choose image by keyword
                     const low = title.toLowerCase();
                     let img = cuadro;
                     if (low.includes('recarga') || low.includes('recarg')) img = puntoRecarga;
                     else if (low.includes('suministr') || low.includes('suministro')) img = suministros;
-                    return { url: urlField || img, text: title };
+                    return { url: urlField || img, text: title, description };
                 });
                 setSlides(mapped);
             } catch (err) {
@@ -109,7 +110,6 @@ export default function Carousel() {
     useEffect(() => {
         const timer = setTimeout(() => {
             ScrollTrigger.refresh();
-            console.log("ScrollTrigger refrescado por cambio en Carousel");
         }, 100);
 
         return () => clearTimeout(timer);
@@ -129,6 +129,7 @@ export default function Carousel() {
                             <TarjetaGrid
                                 url={slide.url}
                                 text={slide.text}
+                                descripcion={slide.description}
                                 className="w-full h-80 rounded-lg shadow-lg overflow-hidden"
                             />
                         </div>

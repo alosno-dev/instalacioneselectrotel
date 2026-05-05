@@ -46,7 +46,6 @@ export function useServiceAnimationAdvanced(sectionRef, currentIndex, totalSlide
                     // Solo disparar navegación si cambió el slide
                     if (newSlide !== lastSlideRef.current) {
                         const direction = newSlide > lastSlideRef.current ? 'next' : 'prev';
-                        console.log(`📊 Progreso: ${progress.toFixed(2)} → Slide: ${newSlide} (${direction})`);
                         lastSlideRef.current = newSlide;
                         onNavigate?.(direction);
                     }
@@ -63,12 +62,6 @@ export function useServiceAnimationAdvanced(sectionRef, currentIndex, totalSlide
                 anticipatePin: 1,
                 id: "triggerDown",
                 animation: timelineRef.current,
-                onEnter: () => {
-                    console.log("📌 TRIGGER ACTIVO - Componente pinned");
-                },
-                onLeave: () => {
-                    console.log("🔴 TRIGGER INACTIVO - Componente unpinned");
-                }
             });
 
             // Recalcula posiciones de triggers después de que todo cargue
