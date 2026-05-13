@@ -66,12 +66,13 @@ export default function Carousel() {
                     const title = item.Titulo || item.titulo || item.TITLE || '';
                     const description = item.Descripcion || item["Descripción"] || item.DESCRIPCION || '';
                     const urlField = item["URL Foto"] || item.URL || item.Url || item.url || '';
+                    const type = item["TIPO"] || item.Tipo || item.TYPE || '';
                     // choose image by keyword
                     const low = title.toLowerCase();
                     let img = cuadro;
                     if (low.includes('recarga') || low.includes('recarg')) img = puntoRecarga;
                     else if (low.includes('suministr') || low.includes('suministro')) img = suministros;
-                    return { url: urlField || img, text: title, description };
+                    return { url: urlField || img, text: title, description, type };
                 });
                 setSlides(mapped);
             } catch (err) {
@@ -130,6 +131,7 @@ export default function Carousel() {
                                 url={slide.url}
                                 text={slide.text}
                                 descripcion={slide.description}
+                                type={slide.type}
                                 className="w-full h-80 rounded-lg shadow-lg overflow-hidden"
                             />
                         </div>
